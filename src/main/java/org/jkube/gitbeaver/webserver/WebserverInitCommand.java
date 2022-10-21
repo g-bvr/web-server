@@ -14,7 +14,7 @@ import static org.jkube.logging.Log.log;
 public class WebserverInitCommand extends SimpleCommand {
 
     public WebserverInitCommand() {
-        super(2, "server", "listen", "port");
+        super(1, "server", "listen", "port");
     }
 
     @Override
