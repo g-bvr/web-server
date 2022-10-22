@@ -8,13 +8,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.jkube.logging.Log.onException;
 
 public class DynamicHttpHandler implements HttpHandler {
 
     public static final String POST = "POST";
-    private final Map<String, Runnable> endPoints = new HashMap<>();
+    private final Map<String, Runnable> endPoints = new ConcurrentHashMap<>();
 
     private final RequestQueue queue = new RequestQueue();
     public void addEndpoint(String endPoint, Runnable trigger) {
@@ -39,7 +40,7 @@ public class DynamicHttpHandler implements HttpHandler {
             responseMessage = queue.enqueue(endpoint, trigger);
             responseCode = 200;
         }
-        onException(() -> sendResponse(he, responseCode, responseMessage)).fail("could not send http response");
+        onException(() -> sendResponse(he, responseCode, responseMessage)).warn("could not send http response");
     }
 
     private void sendResponse(HttpExchange he, int responseCode, String responseMessage) throws IOException {
