@@ -26,7 +26,7 @@ public class DynamicHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange he) {
-        String endpoint = extractEndpointName(he.getHttpContext().getPath());
+        String endpoint = extractEndpointName(he.getRequestURI().getPath());
         Runnable trigger = endPoints.get(endpoint);
         String responseMessage;
         int responseCode;
