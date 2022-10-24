@@ -26,13 +26,13 @@ public class DynamicHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange he) {
-        WebserverPlugin.startRequest();
+        WebserverPlugin.beginRequestThread();
         try {
             tryHandle(he);
         } catch (Throwable e) {
             Log.exception(e);
         }
-        WebserverPlugin.endRequest();
+        WebserverPlugin.endRequestThread();
     }
 
     public void tryHandle(HttpExchange he) {

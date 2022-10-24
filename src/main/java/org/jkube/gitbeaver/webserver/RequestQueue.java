@@ -1,15 +1,12 @@
 package org.jkube.gitbeaver.webserver;
 
-import org.jkube.logging.Log;
+import org.jkube.gitbeaver.WebserverPlugin;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.jkube.logging.Log.log;
 import static org.jkube.logging.Log.onException;
@@ -38,8 +35,10 @@ public class RequestQueue {
     }
 
     private void runAndTriggerNext(Runnable trigger) {
+        WebserverPlugin.beginRequestThread();
         onException(trigger::run).warn("Exception executing triggered script "+currentlyExecuted);
         triggerNext();
+        WebserverPlugin.endRequestThread();
     }
 
     private synchronized void triggerNext() {

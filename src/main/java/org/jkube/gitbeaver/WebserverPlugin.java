@@ -1,9 +1,7 @@
 package org.jkube.gitbeaver;
 
 import org.jkube.application.Application;
-import org.jkube.application.FailureHandler;
 import org.jkube.gitbeaver.plugin.SimplePlugin;
-import org.jkube.gitbeaver.webserver.WebServer;
 import org.jkube.gitbeaver.webserver.WebserverEndPointCommand;
 import org.jkube.gitbeaver.webserver.WebserverInitCommand;
 import org.jkube.logging.Log;
@@ -11,7 +9,6 @@ import org.jkube.logging.Log;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class WebserverPlugin extends SimplePlugin {
 
@@ -38,11 +35,11 @@ public class WebserverPlugin extends SimplePlugin {
         Log.log("Webserver installed request failure handler.");
     }
 
-    public static void startRequest() {
+    public static void beginRequestThread() {
         requestThreads.add(Thread.currentThread());
     }
 
-    public static void endRequest() {
+    public static void endRequestThread() {
         requestThreads.remove(Thread.currentThread());
     }
 
