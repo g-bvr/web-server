@@ -35,6 +35,7 @@ public class WebserverPlugin extends SimplePlugin {
                 System.exit(code);
             }
         });
+        Log.log("Webserver installed request failure handler.");
     }
 
     public static void startRequest() {
