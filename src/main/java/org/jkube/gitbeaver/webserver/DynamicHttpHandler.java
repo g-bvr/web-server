@@ -45,7 +45,6 @@ public class DynamicHttpHandler implements HttpHandler {
 
     private void sendResponse(HttpExchange he, int responseCode, String responseMessage) throws IOException {
         he.sendResponseHeaders(responseCode, responseMessage.length());
-        he.sendResponseHeaders(200, responseMessage.length());
         try(OutputStream os = he.getResponseBody()) {
             os.write(responseMessage.getBytes());
         }
