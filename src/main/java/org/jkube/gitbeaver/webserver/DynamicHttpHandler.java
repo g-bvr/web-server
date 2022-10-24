@@ -2,11 +2,11 @@ package org.jkube.gitbeaver.webserver;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.jkube.gitbeaver.WebserverPlugin;
 import org.jkube.logging.Log;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,6 +26,16 @@ public class DynamicHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange he) {
+        WebserverPlugin.startRequest();
+        try {
+            tryHandle(he);
+        } catch (Throwable e) {
+            Log.exception(e);
+        }
+        WebserverPlugin.endRequest();
+    }
+
+    public void tryHandle(HttpExchange he) {
         String endpoint = extractEndpointName(he.getRequestURI().getPath());
         Runnable trigger = endPoints.get(endpoint);
         String responseMessage;
@@ -42,6 +52,7 @@ public class DynamicHttpHandler implements HttpHandler {
         }
         onException(() -> sendResponse(he, responseCode, responseMessage)).warn("could not send http response");
     }
+
 
     private void sendResponse(HttpExchange he, int responseCode, String responseMessage) throws IOException {
         he.sendResponseHeaders(responseCode, responseMessage.length());
