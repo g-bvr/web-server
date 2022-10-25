@@ -19,7 +19,10 @@ public class WebServer {
 
     private final static WebServer SINGLETON = new WebServer();
     public static final String TRIGGER = "/trigger/";
+    private static final int STOP_MAX_SECONDS = 5;
     private final DynamicHttpHandler httpHandler = new DynamicHttpHandler();
+
+    private HttpServer server;
 
     public static void init(int port) {
         SINGLETON.startListening(port);
@@ -30,12 +33,20 @@ public class WebServer {
         SINGLETON.httpHandler.addEndpoint(endPoint, () -> triggerScript(workspace, script, clone(variables)));
     }
 
+    public static void shutdown() {
+        SINGLETON.stopListening();
+    }
+
     private void startListening(int port) {
         HttpServer server = onException(() -> HttpServer.create(new InetSocketAddress(port), 0))
                 .fail("Could not create http server");
         server.createContext(TRIGGER, httpHandler);
         server.setExecutor(null); // creates a default executor
         server.start();
+    }
+
+    private void stopListening() {
+        server.stop(STOP_MAX_SECONDS);
     }
 
     private static void triggerScript(WorkSpace workspace, String script, Map<String, String> variables) {

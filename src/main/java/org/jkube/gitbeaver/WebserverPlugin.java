@@ -4,6 +4,7 @@ import org.jkube.application.Application;
 import org.jkube.gitbeaver.plugin.SimplePlugin;
 import org.jkube.gitbeaver.webserver.WebserverEndPointCommand;
 import org.jkube.gitbeaver.webserver.WebserverInitCommand;
+import org.jkube.gitbeaver.webserver.WebserverShutdownCommand;
 import org.jkube.logging.Log;
 
 import java.util.Collections;
@@ -15,7 +16,8 @@ public class WebserverPlugin extends SimplePlugin {
     public WebserverPlugin() {
         super(
                 WebserverInitCommand.class,
-                WebserverEndPointCommand.class
+                WebserverEndPointCommand.class,
+                WebserverShutdownCommand.class
         );
     }
 
