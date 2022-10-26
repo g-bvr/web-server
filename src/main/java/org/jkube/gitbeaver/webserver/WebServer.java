@@ -38,7 +38,7 @@ public class WebServer {
     }
 
     private void startListening(int port) {
-        HttpServer server = onException(() -> HttpServer.create(new InetSocketAddress(port), 0))
+        server = onException(() -> HttpServer.create(new InetSocketAddress(port), 0))
                 .fail("Could not create http server");
         server.createContext(TRIGGER, httpHandler);
         server.setExecutor(null); // creates a default executor
