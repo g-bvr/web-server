@@ -60,8 +60,5 @@ public class RequestQueue {
     public void drain() {
         Log.log("Shutting down executor");
         executor.shutdown();
-        Log.log("Waiting for termination");
-        Log.interruptable(() -> executor.awaitTermination(TERMINATION_TIMEOUT_SECONDS, TimeUnit.SECONDS));
-        Log.log("Executor terminated");
     }
 }
