@@ -47,6 +47,7 @@ public class WebServer {
 
     private void stopListening() {
         server.stop(STOP_MAX_SECONDS);
+        httpHandler.drainQueue();
     }
 
     private static void triggerScript(WorkSpace workspace, String script, Map<String, String> variables) {

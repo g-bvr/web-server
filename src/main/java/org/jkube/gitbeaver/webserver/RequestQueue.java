@@ -1,18 +1,21 @@
 package org.jkube.gitbeaver.webserver;
 
 import org.jkube.gitbeaver.WebserverPlugin;
+import org.jkube.logging.Log;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.jkube.logging.Log.log;
 import static org.jkube.logging.Log.onException;
 
 public class RequestQueue {
 
+    private static final long TERMINATION_TIMEOUT_SECONDS = 60;
     private String currentlyExecuted;
     private final Map<String, Runnable> queued = new LinkedHashMap<>();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -54,4 +57,11 @@ public class RequestQueue {
         }
     }
 
+    public void drain() {
+        Log.log("Shutting down executor");
+        executor.shutdown();
+        Log.log("Waiting for termination");
+        Log.interruptable(() -> executor.awaitTermination(TERMINATION_TIMEOUT_SECONDS, TimeUnit.SECONDS));
+        Log.log("Executor terminated");
+    }
 }

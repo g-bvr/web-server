@@ -69,4 +69,7 @@ public class DynamicHttpHandler implements HttpHandler {
         return path.substring(WebServer.TRIGGER.length());
     }
 
+    public void drainQueue() {
+        queue.drain();
+    }
 }
