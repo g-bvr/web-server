@@ -18,7 +18,9 @@ public class WebServer {
     public static final SimpleDateFormat RUN_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
     private final static WebServer SINGLETON = new WebServer();
-    public static final String TRIGGER = "/trigger/";
+
+    public static final String TRIGGER_PREFIX = "/trigger/";
+
     private static final int STOP_MAX_SECONDS = 5;
     private final DynamicHttpHandler httpHandler = new DynamicHttpHandler();
 
@@ -29,8 +31,10 @@ public class WebServer {
     }
 
     public static void addEndPoint(String endPoint, WorkSpace workspace, String script, Map<String, String> variables) {
-        // clone the variables twice, first to decouple from input
-        SINGLETON.httpHandler.addEndpoint(endPoint, () -> triggerScript(workspace, script, clone(variables)));
+        // clone the variables twice, first to decouple from input, second to decouple separate runs
+        Map<String, String> clonedVariables = clone(variables);
+        SINGLETON.httpHandler.addEndpoint(endPoint, urlparams ->
+                invokeScript(workspace, script, cloneAndCombine(clonedVariables, urlparams)));
     }
 
     public static void shutdown() {
@@ -40,7 +44,7 @@ public class WebServer {
     private void startListening(int port) {
         server = onException(() -> HttpServer.create(new InetSocketAddress(port), 0))
                 .fail("Could not create http server");
-        server.createContext(TRIGGER, httpHandler);
+        server.createContext(TRIGGER_PREFIX, httpHandler);
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -50,16 +54,21 @@ public class WebServer {
         httpHandler.drainQueue();
     }
 
-    private static void triggerScript(WorkSpace workspace, String script, Map<String, String> variables) {
+    private static String invokeScript(WorkSpace workspace, String script, Map<String, String> variables) {
         String runId = createRunId(script);
         GitBeaver.applicationLogHandler().createRun(runId);
         Log.log("Triggering run "+runId+" of script "+script);
-        // clone the variables twice, second to decouple from other runs
-        GitBeaver.scriptExecutor().execute(script, null, clone(variables), workspace);
+        return GitBeaver.scriptExecutor().execute(script, null, variables, workspace);
     }
 
     private static Map<String, String> clone(Map<String, String> variables) {
         return new LinkedHashMap<>(variables);
+    }
+
+    private static Map<String, String> cloneAndCombine(Map<String, String> variables, Map<String, String> urlparams) {
+        Map<String, String> result = clone(variables);
+        result.putAll(urlparams);
+        return result;
     }
 
     private static String createRunId(String script) {

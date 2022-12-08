@@ -1,8 +1,9 @@
-package org.jkube.gitbeaver.webserver;
+package org.jkube.gitbeaver.webserver.commands;
 
 import org.jkube.gitbeaver.AbstractCommand;
 import org.jkube.gitbeaver.SimpleCommand;
 import org.jkube.gitbeaver.WorkSpace;
+import org.jkube.gitbeaver.webserver.WebServer;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -26,6 +27,6 @@ public class WebserverEndPointCommand extends AbstractCommand {
         WorkSpace scriptWorkspace = arguments.size() == 2 ? workSpace
                 : workSpace.getSubWorkspace(arguments.get(2));
         WebServer.addEndPoint(endPoint, scriptWorkspace, script, variables);
-        log("Added endpoint "+endPoint+" triggering script "+script+" in workspace "+workSpace);
+        log("Added endpoint "+endPoint+" calling script "+script+" in workspace "+workSpace);
     }
 }

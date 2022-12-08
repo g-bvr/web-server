@@ -8,12 +8,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import static org.jkube.logging.Log.log;
 import static org.jkube.logging.Log.onException;
 
-public class RequestQueue {
+public class TriggerQueue {
 
     private static final long TERMINATION_TIMEOUT_SECONDS = 60;
     private String currentlyExecuted;

@@ -1,7 +1,8 @@
-package org.jkube.gitbeaver.webserver;
+package org.jkube.gitbeaver.webserver.commands;
 
 import org.jkube.gitbeaver.SimpleCommand;
 import org.jkube.gitbeaver.WorkSpace;
+import org.jkube.gitbeaver.webserver.WebServer;
 
 import java.util.List;
 

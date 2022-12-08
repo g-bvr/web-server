@@ -7,19 +7,23 @@ import org.jkube.logging.Log;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 import static org.jkube.logging.Log.onException;
 
 public class DynamicHttpHandler implements HttpHandler {
 
     public static final String POST = "POST";
-    private final Map<String, Runnable> endPoints = new ConcurrentHashMap<>();
+    public static final String GET = "GET";
+    private final Map<String,  Function<Map<String, String>, String>> endPoints = new ConcurrentHashMap<>();
+    private final TriggerQueue queue = new TriggerQueue();
 
-    private final RequestQueue queue = new RequestQueue();
-    public void addEndpoint(String endPoint, Runnable trigger) {
-        if (endPoints.put(endPoint, trigger) != null) {
+    private final RequestExecutors executors = new RequestExecutors();
+    public void addEndpoint(String endPoint, Function<Map<String, String>, String> endpointMethod) {
+        if (endPoints.put(endPoint, endpointMethod) != null) {
             Log.warn("Existing endpoint "+endPoint+" was overwritten");
         }
     }
@@ -36,37 +40,48 @@ public class DynamicHttpHandler implements HttpHandler {
     }
 
     public void tryHandle(HttpExchange he) {
-        String endpoint = extractEndpointName(he.getRequestURI().getPath());
-        Runnable trigger = endPoints.get(endpoint);
-        String responseMessage;
-        int responseCode;
-        if (trigger == null) {
+        String endpoint = he.getRequestURI().getPath();
+        Function<Map<String, String>, String> method = endPoints.get(endpoint);
+        String responseMessage = "error occurred";
+        int responseCode = 500;
+        boolean sendResponse = true;
+        if (method == null) {
             responseMessage = "No such endpoint: "+endpoint;
             responseCode = 400;
-        } else if (!he.getRequestMethod().equals(POST)) {
-            responseMessage = "trigger request must use POST method";
-            responseCode = 405;
+        } else if (isTrigger(endpoint)) {
+            if (!he.getRequestMethod().equals(POST)) {
+                responseMessage = "trigger request must use POST method";
+                responseCode = 405;
+            } else {
+                responseMessage = queue.enqueue(endpoint, () -> method.apply(Map.of()));
+                responseCode = 200;
+            }
         } else {
-            responseMessage = queue.enqueue(endpoint, trigger);
-            responseCode = 200;
+            if (!he.getRequestMethod().equals(GET)) {
+                responseMessage = "end point request must use GET method";
+                responseCode = 405;
+            } else {
+                executors.submit(he, method);
+                sendResponse = false;
+            }
         }
-        onException(() -> sendResponse(he, responseCode, responseMessage)).warn("could not send http response");
+        if (sendResponse) {
+            sendResponse(he, responseCode, responseMessage);
+        }
     }
 
-
-    private void sendResponse(HttpExchange he, int responseCode, String responseMessage) throws IOException {
+    public static void sendResponse(HttpExchange he, int responseCode, String responseMessage) {
+        onException(() -> trySendResponse(he, responseCode, responseMessage)).warn("could not send http response");
+    }
+    private static void trySendResponse(HttpExchange he, int responseCode, String responseMessage) throws IOException {
         he.sendResponseHeaders(responseCode, responseMessage.length());
         try(OutputStream os = he.getResponseBody()) {
             os.write(responseMessage.getBytes());
         }
     }
 
-    private String extractEndpointName(String path) {
-        if (!path.startsWith(WebServer.TRIGGER)) {
-            Log.warn("Illegal path received: "+path);
-            return null;
-        }
-        return path.substring(WebServer.TRIGGER.length());
+    private boolean isTrigger(String path) {
+        return path.startsWith(WebServer.TRIGGER_PREFIX);
     }
 
     public void drainQueue() {

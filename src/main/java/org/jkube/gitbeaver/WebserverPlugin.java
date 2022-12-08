@@ -2,9 +2,9 @@ package org.jkube.gitbeaver;
 
 import org.jkube.application.Application;
 import org.jkube.gitbeaver.plugin.SimplePlugin;
-import org.jkube.gitbeaver.webserver.WebserverEndPointCommand;
-import org.jkube.gitbeaver.webserver.WebserverInitCommand;
-import org.jkube.gitbeaver.webserver.WebserverShutdownCommand;
+import org.jkube.gitbeaver.webserver.commands.WebserverEndPointCommand;
+import org.jkube.gitbeaver.webserver.commands.WebserverInitCommand;
+import org.jkube.gitbeaver.webserver.commands.WebserverShutdownCommand;
 import org.jkube.logging.Log;
 
 import java.util.Collections;
