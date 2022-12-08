@@ -81,6 +81,7 @@ public class DynamicHttpHandler implements HttpHandler {
     }
 
     private boolean isTrigger(String path) {
+        Log.log("request for path received: "+path);
         return path.startsWith(WebServer.TRIGGER_PREFIX);
     }
 
