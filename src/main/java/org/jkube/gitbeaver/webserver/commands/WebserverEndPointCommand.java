@@ -26,7 +26,7 @@ public class WebserverEndPointCommand extends AbstractCommand {
         String script = arguments.get(1);
         WorkSpace scriptWorkspace = arguments.size() == 2 ? workSpace
                 : workSpace.getSubWorkspace(arguments.get(2));
-        WebServer.addEndPoint(endPoint, scriptWorkspace, script, variables);
+        WebServer.addEndPoint("/"+endPoint, scriptWorkspace, script, variables);
         log("Added endpoint "+endPoint+" calling script "+script+" in workspace "+workSpace);
     }
 }
