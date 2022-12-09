@@ -71,7 +71,8 @@ public class DynamicHttpHandler implements HttpHandler {
     }
 
     public static void sendResponse(HttpExchange he, int responseCode, String responseMessage) {
-        onException(() -> trySendResponse(he, responseCode, responseMessage)).warn("could not send http response");
+        onException(() -> trySendResponse(he, responseCode, responseMessage == null ? "no message" : responseMessage))
+                .warn("could not send http response");
     }
     private static void trySendResponse(HttpExchange he, int responseCode, String responseMessage) throws IOException {
         he.sendResponseHeaders(responseCode, responseMessage.length());
