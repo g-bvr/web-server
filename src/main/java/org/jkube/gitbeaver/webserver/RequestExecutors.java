@@ -1,6 +1,7 @@
 package org.jkube.gitbeaver.webserver;
 
 import com.sun.net.httpserver.HttpExchange;
+import org.jkube.gitbeaver.WebserverPlugin;
 import org.jkube.logging.Log;
 
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class RequestExecutors {
 
     private Runnable wrap(HttpExchange he, Function<Map<String, String>, String> method) {
         return () -> {
+            WebserverPlugin.beginRequestThread();
             String responseMessage;
             int responseCode;
             try {
@@ -31,6 +33,7 @@ public class RequestExecutors {
                 responseCode = 500;
             }
             DynamicHttpHandler.sendResponse(he, responseCode, responseMessage);
+            WebserverPlugin.endRequestThread();
         };
     }
 
