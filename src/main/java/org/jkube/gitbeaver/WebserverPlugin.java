@@ -26,6 +26,7 @@ public class WebserverPlugin extends SimplePlugin {
     @Override
     public void init() {
         Application.setFailureHandler((message, code) -> {
+            Log.exception(new RuntimeException("Failure captured"));
             Log.log("Failure in WebServer failure handler: "+message+" threads: "+requestThreads);
             if (requestThreads.contains(Thread.currentThread())) {
                 Log.error("Failure in handling http request {}", message);
