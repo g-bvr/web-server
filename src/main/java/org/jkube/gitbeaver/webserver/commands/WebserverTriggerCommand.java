@@ -12,9 +12,9 @@ import static org.jkube.logging.Log.log;
 /**
  * Usage: resolve source target
  */
-public class WebserveTriggerCommand extends AbstractCommand {
+public class WebserverTriggerCommand extends AbstractCommand {
 
-    public WebserveTriggerCommand() {
+    public WebserverTriggerCommand() {
         super(2, 3, "server", "trigger");
     }
 
