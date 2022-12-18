@@ -76,6 +76,7 @@ public class DynamicHttpHandler implements HttpHandler {
     }
     private static void trySendResponse(HttpExchange he, int responseCode, String responseMessage) throws IOException {
         he.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
+        responseMessage = responseMessage.replaceAll("\\n", "\n");
         he.sendResponseHeaders(responseCode, responseMessage.length());
         try(OutputStream os = he.getResponseBody()) {
             os.write(responseMessage.getBytes());
