@@ -27,7 +27,7 @@ public class RequestExecutors {
             String responseMessage;
             int responseCode;
             try {
-                responseMessage = method.apply(queryToMap(he.getRequestURI().getQuery()));
+                responseMessage = method.apply(queryToMap(he.getRequestURI().getRawQuery()));
                 responseCode = 200;
             } catch (RuntimeException e) {
                 Log.exception(e);
