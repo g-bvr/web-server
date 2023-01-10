@@ -4,6 +4,8 @@ import com.sun.net.httpserver.HttpExchange;
 import org.jkube.gitbeaver.WebserverPlugin;
 import org.jkube.logging.Log;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -42,7 +44,7 @@ public class RequestExecutors {
         if (query != null) {
             for (String param : query.split("&")) {
                 String[] entry = param.split("=", 2);
-                result.put(entry[0], entry.length == 2 ? entry[1] : "");
+                result.put(entry[0], entry.length == 2 ? URLDecoder.decode(entry[1], StandardCharsets.UTF_8) : "");
             }
         }
         return result;
