@@ -6,6 +6,7 @@ import org.jkube.gitbeaver.webserver.WebServer;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 import static org.jkube.logging.Log.log;
 
@@ -14,13 +15,16 @@ import static org.jkube.logging.Log.log;
  */
 public class WebserverInitCommand extends SimpleCommand {
 
+    private static final String PORT = "port";
+
     public WebserverInitCommand() {
-        super(1, "server", "listen", "port");
+        super("SERVER LISTEN PORT ", "Start web server, listening to specified port");
+        argument(PORT, "the port to which the server will be listening");
     }
 
     @Override
-    public void execute(WorkSpace workSpace, List<String> arguments) {
-        int port = Integer.parseInt(arguments.get(0));
+    public void execute(WorkSpace workSpace, Map<String, String> arguments) {
+        int port = Integer.parseInt(arguments.get(PORT));
         WebServer.init(port);
         log("Started webserver listening on port "+port);
     }
