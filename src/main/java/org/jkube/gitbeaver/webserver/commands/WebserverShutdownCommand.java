@@ -4,7 +4,6 @@ import org.jkube.gitbeaver.SimpleCommand;
 import org.jkube.gitbeaver.WorkSpace;
 import org.jkube.gitbeaver.webserver.WebServer;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.jkube.logging.Log.log;
