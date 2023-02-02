@@ -48,7 +48,7 @@ public class DynamicHttpHandler implements HttpHandler {
             responseMessage = "No such endpoint: "+endpoint;
             responseCode = 400;
         } else if (isTrigger(endpoint)) {
-            if (!he.getRequestMethod().equals(POST)) {
+            if (!he.getRequestMethod().equals(GET)) {
                 responseMessage = "trigger request must use POST method";
                 responseCode = 405;
             } else {
