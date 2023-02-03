@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  background-color: #FAFFFA;
+}
+#myheader {
+  font-size: 60px;
+  font-weight: 600;
+  color: #3d3d3e;
+  text-shadow: 0px 0px 5px #DDDDDD, 0px 0px 10px #DDDDDD, 0px 0px 10px #EEEEEE,
+    0px 0px 20px #EEEEEE;
+}
+#mytable1 {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+#mytable1 td, #mytable1 th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#mytable1 tr:nth-child(even){background-color: #f2f2e2;}
+#mytable1 tr:nth-child(odd){background-color: #e2f2f2;}
+#mytable1 tr:hover {background-color: #ddd;}
+#mytable1 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+#mytable2 {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+#mytable2 td, #mytable2 th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#mytable2 tr:nth-child(even){background-color: #f2f2e2;}
+#mytable2 tr:nth-child(odd){background-color: #e2f2f2;}
+#mytable2 tr:hover {background-color: #ddd;}
+#mytable2 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #A43A6D;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<h1 id="myheader">WebserverTriggerCommand</h1>
+<h2>Purpose</h2>
+Define a trigger (triggers are queued and executed sequentially, the request returns directly after the trigger script has been queued, triggers cannot have url parameters)
+<h2>Variants</h2>
+<table id="mytable1">
+<tr><th>Usage</th><th>Description</th></tr>
+  <tr><td>SERVER TRIGGER path script</td><td>execute script in current workspace</td></tr>
+  <tr><td>SERVER TRIGGER path script IN folder</td><td>execute script in sub-workspace specified by given folder</td></tr>
+</table>
+
+<h2>Arguments</h2>
+
+<table id="mytable2">
+<tr><th>Argument</th><th>Value</th></tr>
+  <tr><td>path</td><td>The url path that shall be mapped to this trigger (starts with an / character)</td></tr>
+  <tr><td>script</td><td>The path to the script (relative to current workspace, not the execution workspace) that gets executed when trigger receives a GET request</td></tr>
+  <tr><td>folder</td><td>The path to a folder (relative to current workspace) that serves as execution workspace (the executed script can be located outside this folder)</td></tr>
+</table>
+<h2>Plugin</h2>
+This command is defined in <a href="WebserverPlugin.html">WebserverPlugin</a>
+</body>
+</html>
+

@@ -15,7 +15,9 @@ import java.util.Set;
 public class WebserverPlugin extends SimplePlugin {
 
     public WebserverPlugin() {
-        super(
+        super("""
+                        operates a web server to handle http requests and trigger serialized script execution
+                        """,
                 WebserverInitCommand.class,
                 WebserverEndPointCommand.class,
                 WebserverTriggerCommand.class,
