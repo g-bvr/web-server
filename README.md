@@ -1,4 +1,4 @@
-# Repository g-bvr/terraform
+# Repository g-bvr/web-server
 
 This repository defines a plugin that can be used to enhance the built-in set of commands
 to  operate a web server to handle http requests and trigger serialized script execution.
@@ -23,7 +23,7 @@ is provided by E. Breuninger GmbH & Co. in the public repository
 
 A list of all commands defined by this plugin can be found in this [automatically generated documentation](https://htmlpreview.github.io/?https://raw.githubusercontent.com/g-bvr/web-server/main/doc/WebserverPlugin.html).
 
-## Operation of a web server
+## Operation hints
 
 The web server allows two conceptionally different type of interactions:
  * End-Point: handles GET requests concurrently and returns a result after the script is executed. URL arguments are passed as variables to the invoked script.
