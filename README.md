@@ -32,7 +32,7 @@ The web server allows two conceptionally different types of interactions:
    can be maximally present once in the queue. The reply to the POST request informs if the invoked script was started immediatly, put into the queue or ignored (because 
    already present in the queue)
 
-When the web server is started, it executes a thread for polling the queue and executing triggered scripts. This prevents the JVM running the gitbeaver core executable 
+When the web server is started, it continupously runs a thread for polling the queue and executing triggered scripts. This prevents the JVM running the gitbeaver core executable 
 from terminating. When the web server is stopped (and no other plugins run threads), the JVM will be terminated.
 
 ***Note:*** When the gitbeaver docker image is deployed as a cloud run service, the execution of triggered scripts extends beyond the handling of requests.  
