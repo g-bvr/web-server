@@ -35,10 +35,14 @@ The web server allows two conceptionally different types of interactions:
 When the web server is started, it continupously runs a thread for polling the queue and executing triggered scripts. This prevents the JVM running the gitbeaver core executable 
 from terminating. When the web server is stopped (and no other plugins run threads), the JVM will be terminated.
 
-***Note:*** When the gitbeaver docker image is deployed as a cloud run service, the execution of triggered scripts extends beyond the handling of requests.  
+***Note:*** 
+
+When the gitbeaver docker image is deployed as a cloud run service, the execution of triggered scripts extends beyond the handling of requests.  
+
 It is thus recommended to set the option ```run.googleapis.com/cpu-throttling = false```to allocate cpu also when no requests are processed.
 In order to not create unnecessary costs, it is also recommended to set ```autoscaling.knative.dev/minScale=0``` (this will scale down the number of instances
 to 0 if no requests are received for some time). 
+
 An example setup of a gitbeaver cloud run service is illustrated by [this terraform file](https://raw.githubusercontent.com/e-breuninger/git-beaver-gcp/main/terraform/main.tf) in the public repository
 [e-breuninger/git-beaver-gcp](https://github.com/e-breuninger/git-beaver-gcp) (kindly provided by E. Breuninger GmbH & Co.).
 
