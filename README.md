@@ -25,9 +25,9 @@ A list of all commands defined by this plugin can be found in this [automaticall
 
 ## Operation hints
 
-The web server allows two conceptionally different type of interactions:
- * End-Point: handles GET requests concurrently and returns a result after the script is executed. URL arguments are passed as variables to the invoked script.
- * Trigger: accepts only POST requests, the invoked scripts are executed sequentially, url arguments are not supported. The request returns immediately (usually before 
+The web server allows two conceptionally different types of interactions:
+ * ***End-Point***: handles GET requests concurrently and returns a result after the script execution has terminated. URL arguments are passed as variables to the invoked script.
+ * ***Trigger***: accepts only POST requests, the invoked scripts are executed sequentially, url arguments are not supported. The request returns immediately (usually before 
    the invoked script has terminated). If another (or same) trigger script is currently active, the execution is deferred to a FIFO queue. A trigger (identified by its name)
    can be maximally present once in the queue. The reply to the POST request informs if the invoked script was started immediatly, put into the queue or ignored (because 
    already present in the queue)
