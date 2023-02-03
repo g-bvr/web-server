@@ -35,7 +35,7 @@ The web server allows two conceptionally different types of interactions:
 When the web server is started, it continupously runs a thread for polling the queue and executing triggered scripts. This prevents the JVM running the gitbeaver core executable 
 from terminating. When the web server is stopped (and no other plugins run threads), the JVM will be terminated.
 
-***Note:*** 
+## Hints for operating as a cloud run service
 
 When the gitbeaver docker image is deployed as a cloud run service, the execution of triggered scripts extends beyond the handling of requests.  
 
