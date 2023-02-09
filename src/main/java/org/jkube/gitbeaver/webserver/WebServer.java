@@ -73,7 +73,7 @@ public class WebServer {
     }
 
     private static String createRunId(String endpoint) {
-        return endpoint+"-"+RUN_TIME_FORMAT.format(new Date());
+        return endpoint.substring(TRIGGER_PREFIX.length())+"-"+RUN_TIME_FORMAT.format(new Date());
     }
 
 }
