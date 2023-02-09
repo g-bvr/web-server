@@ -34,7 +34,7 @@ public class WebServer {
         // clone the variables twice, first to decouple from input, second to decouple separate runs
         Map<String, String> clonedVariables = clone(variables);
         SINGLETON.httpHandler.addEndpoint(endPoint, urlparams ->
-                invokeScript(workspace, script, cloneAndCombine(clonedVariables, urlparams)));
+                invokeScript(workspace, script, endPoint, cloneAndCombine(clonedVariables, urlparams)));
     }
 
     public static void shutdown() {
@@ -54,10 +54,11 @@ public class WebServer {
         httpHandler.drainQueue();
     }
 
-    private static String invokeScript(WorkSpace workspace, String script, Map<String, String> variables) {
-        String runId = createRunId(script);
+    private static String invokeScript(WorkSpace workspace, String script, String endPoint, Map<String, String> variables) {
+        String runId = createRunId(endPoint);
         GitBeaver.applicationLogHandler().createRun(runId);
         Log.log("Triggering run "+runId+" of script "+script);
+        variables.put(GitBeaver.RUN_ID_VARIABLE, runId);
         return GitBeaver.scriptExecutor().execute(script, null, variables, workspace);
     }
 
@@ -71,8 +72,8 @@ public class WebServer {
         return result;
     }
 
-    private static String createRunId(String script) {
-        return script+"-"+RUN_TIME_FORMAT.format(new Date());
+    private static String createRunId(String endpoint) {
+        return endpoint+"-"+RUN_TIME_FORMAT.format(new Date());
     }
 
 }
