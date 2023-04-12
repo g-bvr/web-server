@@ -25,30 +25,4 @@ public class WebserverPlugin extends SimplePlugin {
         );
     }
 
-    private static final Set<Thread> requestThreads = Collections.synchronizedSet(new HashSet<>());
-
-    @Override
-    public void init() {
-        Application.setFailureHandler((message, code) -> {
-            Log.exception(new RuntimeException("Failure captured: "+message));
-            Log.log("Failure in WebServer failure handler: "+message+" threads: "+requestThreads);
-            if (requestThreads.contains(Thread.currentThread())) {
-                Log.error("Failure in handling http request {}", message);
-            } else {
-                Log.error("Failure in main: {}", message);
-                Log.error("Terminating VM with error code: {}", code);
-                System.exit(code);
-            }
-        });
-        Log.log("Webserver installed request failure handler.");
-    }
-
-    public static void beginRequestThread() {
-        requestThreads.add(Thread.currentThread());
-    }
-
-    public static void endRequestThread() {
-        requestThreads.remove(Thread.currentThread());
-    }
-
 }

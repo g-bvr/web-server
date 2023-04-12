@@ -2,6 +2,7 @@ package org.jkube.gitbeaver.webserver;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.jkube.gitbeaver.ExecutionQueue;
 import org.jkube.gitbeaver.WebserverPlugin;
 import org.jkube.logging.Log;
 
@@ -18,7 +19,7 @@ public class DynamicHttpHandler implements HttpHandler {
     public static final String POST = "POST";
     public static final String GET = "GET";
     private final Map<String,  Function<Map<String, String>, String>> endPoints = new ConcurrentHashMap<>();
-    private final TriggerQueue queue = new TriggerQueue();
+    private final ExecutionQueue queue = new ExecutionQueue();
 
     private final RequestExecutors executors = new RequestExecutors();
     public void addEndpoint(String endPoint, Function<Map<String, String>, String> endpointMethod) {
@@ -29,13 +30,11 @@ public class DynamicHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange he) {
-        WebserverPlugin.beginRequestThread();
         try {
             tryHandle(he);
         } catch (Throwable e) {
             Log.exception(e);
         }
-        WebserverPlugin.endRequestThread();
     }
 
     public void tryHandle(HttpExchange he) {
