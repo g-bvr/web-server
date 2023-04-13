@@ -23,7 +23,6 @@ public class RequestExecutors {
 
     private Runnable wrap(HttpExchange he, Function<Map<String, String>, String> method) {
         return () -> {
-            WebserverPlugin.beginRequestThread();
             String responseMessage;
             int responseCode;
             try {
@@ -35,7 +34,6 @@ public class RequestExecutors {
                 responseCode = 500;
             }
             DynamicHttpHandler.sendResponse(he, responseCode, responseMessage);
-            WebserverPlugin.endRequestThread();
         };
     }
 
