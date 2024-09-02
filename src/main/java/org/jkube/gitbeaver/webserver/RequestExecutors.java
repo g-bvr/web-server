@@ -2,7 +2,7 @@ package org.jkube.gitbeaver.webserver;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jkube.gitbeaver.WebserverPlugin;
-import org.jkube.logging.Log;
+import org.jkube.gitbeaver.logging.Log;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;

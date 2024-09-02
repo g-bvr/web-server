@@ -1,12 +1,12 @@
 package org.jkube.gitbeaver;
 
-import org.jkube.application.Application;
+import org.jkube.gitbeaver.util.Application;
 import org.jkube.gitbeaver.plugin.SimplePlugin;
 import org.jkube.gitbeaver.webserver.commands.WebserverEndPointCommand;
 import org.jkube.gitbeaver.webserver.commands.WebserverInitCommand;
 import org.jkube.gitbeaver.webserver.commands.WebserverShutdownCommand;
 import org.jkube.gitbeaver.webserver.commands.WebserverTriggerCommand;
-import org.jkube.logging.Log;
+import org.jkube.gitbeaver.logging.Log;
 
 import java.util.Collections;
 import java.util.HashSet;

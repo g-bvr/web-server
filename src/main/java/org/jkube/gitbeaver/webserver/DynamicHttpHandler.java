@@ -4,7 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.jkube.gitbeaver.ExecutionQueue;
 import org.jkube.gitbeaver.WebserverPlugin;
-import org.jkube.logging.Log;
+import org.jkube.gitbeaver.logging.Log;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-import static org.jkube.logging.Log.onException;
+import static org.jkube.gitbeaver.logging.Log.onException;
 
 public class DynamicHttpHandler implements HttpHandler {
 

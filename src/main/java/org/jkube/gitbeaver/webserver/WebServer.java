@@ -3,7 +3,7 @@ package org.jkube.gitbeaver.webserver;
 import com.sun.net.httpserver.HttpServer;
 import org.jkube.gitbeaver.GitBeaver;
 import org.jkube.gitbeaver.WorkSpace;
-import org.jkube.logging.Log;
+import org.jkube.gitbeaver.logging.Log;
 
 import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.jkube.logging.Log.onException;
+import static org.jkube.gitbeaver.logging.Log.onException;
 
 public class WebServer {
 
