@@ -1,6 +1,6 @@
 package org.jkube.gitbeaver;
 
-import org.jkube.gitbeaver.util.Application;
+import org.jkube.gitbeaver.application.Application;
 import org.jkube.gitbeaver.plugin.SimplePlugin;
 import org.jkube.gitbeaver.webserver.commands.WebserverEndPointCommand;
 import org.jkube.gitbeaver.webserver.commands.WebserverInitCommand;
